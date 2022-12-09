@@ -13,6 +13,7 @@ class ThreadEX_01_2 implements Runnable {
 		
 	}
 }
+}
 
 // 이 밑에 있는 클래스는 Thread
 class ThreadEX_01_1 extends Thread {
@@ -57,5 +58,4 @@ public class ThreadEX_01 {
         // start를 이용해서 thread 실행.
 		System.out.println("main thread 종료!");
 	}
-}
 }

@@ -1,33 +1,40 @@
 package sampleproj;
 
-class ThreadEx_13_1 implements Runnable {
-	public ThreadEx_13_1 () {
+class Shared implements Runnable {
+	public Shared () {
 	
 	}
 	
-	
 	@Override
 	public void run() {
-	   for (int i=0; i<6; i++ ) {
+	   
+	   synchronized (this) {
+	   for (int i=0; i<5; i++ ) {
+		  
 		   System.out.println(Thread.currentThread().getName());
+		   try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	   }
 	}
 
 }
+}
+
 
 public class ThreadEx_13 {
 
 	public static void main(String[] args) {
-		Runnable r = new ThreadEx_13_1();
-		Thread t = new Thread(r);
-		
-		ThreadEx_13_1 = new ThreadEx_13_1();
-		
-		t.start();
-		
-		
-				
-				
+	    
+		Runnable r = new Shared();
+	    
+		Thread t1 = new Thread(r);
+	    Thread t2 = new Thread(r);
+	    
+		t1.start();
+		t2.start();
 				
 	}
 }
