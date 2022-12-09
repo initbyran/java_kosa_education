@@ -1,7 +1,7 @@
 package sampleproj;
 
 // 공유 객체를 생성하기위한 class
-class Shared {
+class Shared1 {
 	// 공유 method
 	public synchronized void printName() {
 		
@@ -23,17 +23,17 @@ class ThreadEx_13_1 implements Runnable {
 	public ThreadEx_13_1 () {
 		}
 		
-	public ThreadEx_13_1(Shared shared) {
+	public ThreadEx_13_1(Shared1 shared1) {
 		super();
-		this.shared = shared;
+		this.shared1 = shared1;
 	}
 
 	// 공유 객체
-	private Shared shared;
+	private Shared1 shared1;
 	
 	@Override
 	public void run() {
-		shared.printName();
+		shared1.printName();
 	}
 }
 
@@ -41,10 +41,10 @@ public class ThreadEx_13_Answer {
 
 	public static void main(String[] args) {
 	  
-		Shared shared = new Shared();
+		Shared1 shared1 = new Shared1();
 	  // 공유객체로 runnable 객체 생성 -> runnable 객체로 Thread객체 생성
-	  Thread t1 = new Thread(new ThreadEx_13_1(shared),"첫번째 쓰레드");
-	  Thread t2 = new Thread(new ThreadEx_13_1(shared),"두번째 쓰레드");
+	  Thread t1 = new Thread(new ThreadEx_13_1(shared1),"첫번째 쓰레드");
+	  Thread t2 = new Thread(new ThreadEx_13_1(shared1),"두번째 쓰레드");
 	  
 	  t1.start();
 	  t2.start();
