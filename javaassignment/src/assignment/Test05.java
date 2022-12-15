@@ -4,28 +4,28 @@ public class Test05 {
 
 	public static void main(String[] args) {
 		
-		int a;
-		int b;
-		int c;
+		int a[] = new int[3];
 		
-		a = Integer.parseInt(args[0]);
-		b = Integer.parseInt(args[1]);
-		c = Integer.parseInt(args[2]);
-
-		System.out.println("입력값 : "+a+" "+b+" "+c);
+		a[0] = Integer.parseInt(args[0]);
+		a[1] = Integer.parseInt(args[1]);
+		a[2] = Integer.parseInt(args[2]);
+		
+		System.out.println("입력값 : "+a[0]+" "+a[1]+" "+a[2]);
 			
-		int max = Integer.parseInt(args[0]);
+	
+		
+		int max = a[0];
 		for(int i=1; i<args.length; i++) {
-			if(max < Integer.parseInt(args[i])) { 
-				max = Integer.parseInt(args[i]);
+			if(max < a[i]) { 
+				max = a[i];
 			}
 		}
 		System.out.println("최대값 : "+max);				
 		
-		int min = Integer.parseInt(args[0]);
+		int min = a[0];
 		for (int i=1; i < args.length; i++) {
-			if(min > Integer.parseInt(args[i])) {
-				min = Integer.parseInt(args[i]);
+			if(min > a[i]) {
+				min = a[i];
 			}
 		}
 		System.out.println("최소값 : "+min);
