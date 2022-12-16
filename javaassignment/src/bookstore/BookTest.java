@@ -3,6 +3,9 @@ package bookstore;
 
 public class BookTest {
 
+	public static Object bookaray;
+	
+
 	public static void main(String[] args) {
        
        Book bookArray[]=new Book[5];
@@ -16,26 +19,21 @@ public class BookTest {
        for(Book book : bookArray) {
            System.out.println(book.toString());
        }
-       double sum = 0;       
+           double sum = 0;       
     	   double sum1 = 0;
     	   double sum2 = 0;       
     	   double sum3 = 0;
     	   
          for(Book book : bookArray) {
         	
-    	 if (book.getCategory().equals("IT")) {
-    		  
+    	 if (book.getCategory().equals("IT")) {    		  
     		    sum +=book.getBookPrice();             
     		    sum1 +=book.getDiscountBookPrice();
               
     	 }
     	 
-    	 else {
-    		 
+    	 else {   		 
     		 sum2 +=book.getBookPrice();
-   		  
- 		   
-          
  		    sum3 +=book.getDiscountBookPrice(); 
     	 }
     	 
