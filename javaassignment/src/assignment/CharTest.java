@@ -14,12 +14,13 @@ public class CharTest {
 	} 
 		
  StringBuffer sb = new StringBuffer();
- 
+
 		for(String str1 : str) {
-			 StringBuffer str2 = sb.append(str1);
-       for(int i = (str2.length()-1);i>=0;i--) {
-			System.out.print(str2.charAt(i));
-			}}  
+			sb.append(str1);
+					
+		} for(int i = (sb.length()-1);i>=0;i--) {
+			System.out.print(sb.charAt(i));
+			} 
 
 		}}
 
