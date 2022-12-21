@@ -27,10 +27,12 @@ public class Test01 {
 		if (year/400==0 || (year/4==0 && !(year/100==0))) {
 			System.out.println("true");
 		}
-		if (x>10 && x<20) {
+		boolean powerOn = false;
+		if (!powerOn) {
 			System.out.println("true");
 		}
-		if (x>10 && x<20) {
+		String str = "yes";
+		if (str.equals("yes")) {
 			System.out.println("true");
 		}
 	}
