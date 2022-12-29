@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
-
 import org.apache.commons.dbcp2.BasicDataSource;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -114,7 +111,39 @@ public class BookSearchJavaFXConnectionPool extends Application {
         deleteBtn.setPrefSize(150, 40);
         deleteBtn.setDisable(true); // 현재는 사용할 수 없는 상태
         deleteBtn.setOnAction(e->{
-        	
+        	DataSource ds = getDataSource();
+    		Connection con = null;
+			try {
+				con = ds.getConnection();
+			} catch (SQLException e3) {
+				// TODO Auto-generated catch block
+				e3.printStackTrace();
+			}
+			
+			String sql = "DELETE FROM book WHERE bisbn = ?";
+    		
+    		try {
+				con.setAutoCommit(false); // transaction
+				
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, deleteISBN);
+				int count = pstmt.executeUpdate();
+				
+				// transaction ; 결과 처리
+				if (count == 1) {
+					con.commit();
+					// 자동으로 refresh
+			        // code의 중복 방지 (유지보수성)		
+					
+				} else {
+					con.rollback();
+				}
+				
+				pstmt.close();
+				con.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
         });
         
         
@@ -158,40 +187,9 @@ public class BookSearchJavaFXConnectionPool extends Application {
         		BookVO book = row.getItem(); // 내가 클릭한 행 확인
         		//삭제할 책의 key인 bisbn을 버튼이 클릭되었을 때 확인
         		
-        		DataSource ds = getDataSource();
-        		Connection con = null;
-				try {
-					con = ds.getConnection();
-				} catch (SQLException e3) {
-					// TODO Auto-generated catch block
-					e3.printStackTrace();
-				}
         		
         		deleteISBN = book.getBisbn();
-        		String sql = "DELETE FROM book WHERE bisbn = ?";
         		
-        		try {
-					con.setAutoCommit(false); // transaction
-					
-					PreparedStatement pstmt = con.prepareStatement(sql);
-					pstmt.setString(1, deleteISBN);
-					int count = pstmt.executeUpdate();
-					
-					// transaction ; 결과 처리
-					if (count == 1) {
-						con.commit();
-						// 자동으로 refresh
-				        // code refactoring ; code의 중복 방지 (유지보수성)		
-						
-					} else {
-						con.rollback();
-					}
-					
-					pstmt.close();
-					con.close();
-				} catch (SQLException e2) {
-					e2.printStackTrace();
-				}
         		
         	});
         	return row;
