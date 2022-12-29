@@ -40,6 +40,7 @@ public class BookSearchJavaFXConnectionPool extends Application {
 	
 	public static DataSource getDataSource() {
 		// basic data source의 상위 type : data source(interface)
+		// basic data source를 외부에서도 사용할 수 있게 해줌
 		// is-A 관계
 		return basicDS;
 	}
