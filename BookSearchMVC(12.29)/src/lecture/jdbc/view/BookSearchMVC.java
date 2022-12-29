@@ -138,12 +138,12 @@ public class BookSearchMVC extends Application {
 			row.setOnMouseClicked(event -> {
 
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					BookVO rowData = row.getItem();
-					rowData.getBisbn();
+					BookVO book = row.getItem();
+					String clickedRowData = book.getBisbn();
 
 					BookDoubleClickDialogController controller = new BookDoubleClickDialogController();
-					ObservableList<BookVO> list = controller.getResult(rowData.getBisbn());
-					tableView.setItems(list);
+					ObservableList<BookVO> list = controller.getResult(book.getBisbn());
+					//tableView.setItems(list);
 					
 					
 					TableView<BookVO> tableView1 = new TableView<BookVO>();
@@ -169,7 +169,7 @@ public class BookSearchMVC extends Application {
 
 					// 위에서 만들어진 컬럼객체를 TableView에 붙여요!
 					tableView1.getColumns().addAll(dateColumn, pageColumn, supplementColumn, publisherColumn);
-
+					tableView1.setItems(list);
 					Stage dialog = new Stage(StageStyle.UTILITY);
 					dialog.initModality(Modality.WINDOW_MODAL);
 					dialog.initOwner(primaryStage);

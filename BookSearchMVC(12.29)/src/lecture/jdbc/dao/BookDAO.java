@@ -117,7 +117,7 @@ public class BookDAO {
 		return 0;
 	}
 
-	public ObservableList<BookVO> doubleClick (String rowData){
+	public ObservableList<BookVO> doubleClick (String clickedRowData){
 
 
     	DataSource ds = getDataSource();
@@ -139,7 +139,7 @@ public class BookDAO {
 		
 		PreparedStatement pstmt = con.prepareStatement(sql.toString());
 		
-		pstmt.setString(1, rowData);
+		pstmt.setString(1, clickedRowData);
 		
 		ResultSet rs = pstmt.executeQuery();
 		

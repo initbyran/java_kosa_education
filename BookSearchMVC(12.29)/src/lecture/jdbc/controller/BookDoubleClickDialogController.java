@@ -6,12 +6,12 @@ import lecture.jdbc.vo.BookVO;
 
 public class BookDoubleClickDialogController {
 	
-	public ObservableList<BookVO> getResult(String rowData) {
+	public ObservableList<BookVO> getResult(String clickedRowData) {
 		
 		// service instance
 		BookService service = new BookService();
 		// transaction으로 처리
-		ObservableList<BookVO> list = service.doubleClickDialog(rowData);
+		ObservableList<BookVO> list = service.doubleClickDialog(clickedRowData);
 		
 		return list;
 

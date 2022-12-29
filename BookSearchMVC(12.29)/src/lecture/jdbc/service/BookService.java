@@ -27,11 +27,11 @@ public class BookService {
 		return list;
 	}
 
-	public ObservableList<BookVO> doubleClickDialog (String rowData) {
+	public ObservableList<BookVO> doubleClickDialog (String clickedRowData) {
 		// DB 처리
 		
 		BookDAO dao = new BookDAO();
-		ObservableList<BookVO> list = dao.doubleClick(rowData);
+		ObservableList<BookVO> list = dao.doubleClick(clickedRowData);
 		
 		return list;
 		
