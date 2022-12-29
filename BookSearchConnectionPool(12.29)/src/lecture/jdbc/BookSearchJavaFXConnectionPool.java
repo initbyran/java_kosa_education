@@ -181,34 +181,7 @@ public class BookSearchJavaFXConnectionPool extends Application {
 					if (count == 1) {
 						con.commit();
 						// 자동으로 refresh
-
-			        	StringBuffer sql1 = new StringBuffer();
-						sql1.append("SELECT bisbn, btitle, bauthor, bprice ");
-						sql1.append("FROM book ");
-						sql1.append("WHERE btitle like ? ");
-						sql1.append("ORDER BY bprice DESC");
-						
-						try {
-						PreparedStatement pstmt1 = con.prepareStatement(sql1.toString());
-						
-						pstmt1.setString(1, "%"+textField.getText()+"%");
-						
-						ResultSet rs = pstmt1.executeQuery();
-						
-						ObservableList<BookVO> list = FXCollections.observableArrayList();
-						
-						while(rs.next()) {
-							BookVO book1 = new BookVO(rs.getString("bisbn"),rs.getString("btitle"),rs.getString("bauthor"),rs.getInt("bprice"));
-					        list.add(book1);
-						} 
-						tableView.setItems(list);
-						rs.close();
-						pstmt1.close();
-						con.close();
-						
-						} catch (Exception e2) {
-							e2.printStackTrace();
-						}
+				        // code refactoring ; code의 중복 방지 (유지보수성)		
 						
 					} else {
 						con.rollback();
