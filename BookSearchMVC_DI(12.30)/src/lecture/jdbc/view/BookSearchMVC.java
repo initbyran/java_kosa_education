@@ -173,15 +173,12 @@ public class BookSearchMVC extends Application {
 						root1.setCenter(tableView1);
 						dialog.setScene(scene1);
 						dialog.show();
-
 					}
 				});
 			});
-			// 해당 행을 리턴하는 방식
 			return row;
 		});
 
-//double click
 		root.setCenter(tableView);
 		root.setBottom(flowpane);
 
