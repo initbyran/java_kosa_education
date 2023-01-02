@@ -31,7 +31,7 @@ public class BookService {
 		// DB 처리
 		
 		BookDAO dao = new BookDAO();
-		ObservableList<BookVO> list = dao.doubleClick(clickedRowData);
+		ObservableList<BookVO> list = dao.selectOne(clickedRowData);
 		
 		return list;
 		

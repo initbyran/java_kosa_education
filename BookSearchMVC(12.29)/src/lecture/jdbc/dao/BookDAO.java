@@ -118,7 +118,7 @@ public class BookDAO {
 		return 0;
 	}
 
-	public ObservableList<BookVO> doubleClick (String clickedRowData){
+	public ObservableList<BookVO> selectOne (String clickedRowData){
 
 
     	DataSource ds = getDataSource();
