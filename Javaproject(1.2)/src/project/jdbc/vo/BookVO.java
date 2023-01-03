@@ -8,7 +8,7 @@ public class BookVO {
 	private String bpublisher;
 	
 	private String bdate;
-	private String bpage;
+	private int bpage;
 	private String btranslator;
 	
 	private String rduedate;
@@ -17,18 +17,31 @@ public class BookVO {
 		
 	}
 
-	public BookVO(String bisbn, String btitle, String bauthor, String bpublisher, String bdate, String bpage,
-			String btranslator, String rduedate) {
+
+	public BookVO(String bisbn, String btitle, String bauthor, String bpublisher) {
 		super();
 		this.bisbn = bisbn;
 		this.btitle = btitle;
 		this.bauthor = bauthor;
 		this.bpublisher = bpublisher;
+	}
+
+
+
+
+	public BookVO(String rduedate) {
+		super();
+		this.rduedate = rduedate;
+	}
+
+
+	public BookVO(String bdate, Integer bpage, String btranslator) {
+		super();
 		this.bdate = bdate;
 		this.bpage = bpage;
 		this.btranslator = btranslator;
-        this.rduedate = rduedate;
 	}
+
 
 	public String getBisbn() {
 		return bisbn;
@@ -70,11 +83,11 @@ public class BookVO {
 		this.bdate = bdate;
 	}
 
-	public String getBpage() {
+	public Integer getBpage() {
 		return bpage;
 	}
 
-	public void setBpage(String bpage) {
+	public void setBpage(int bpage) {
 		this.bpage = bpage;
 	}
 

@@ -5,43 +5,47 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import project.jdbc.controller.BookDeleteByISBNController;
 import project.jdbc.controller.BookDetailByISBNController;
 import project.jdbc.controller.BookSearchByKeywordController;
 import project.jdbc.vo.BookVO;
 
-public class BookSearchView {
+public class ManagerBookListView {
+	Scene scene = null;
+	Stage primaryStage = null;
+    BorderPane root = null;
+    Button searchBtn;
+    Button addBtn;
+    Button deleteBtn;
+    Button changeBtn;
+    Button logOutBtn;
+    
+    String deleteISBN;
+    String searchKeyword;
+    String rowData;
 
     TableView<BookVO> tableView;
     TextField textField;
-    Button searchBtn;
-    Button rentBtn;
-    Button returnBtn;
-    Button mypageBtn;
-    Button logOutBtn;
     
-    String searchKeyword;
-    String rowData;
-    Stage primaryStage = null;
-    BorderPane root = null;
-
-	public BookSearchView(Stage primaryStage, BorderPane root) {
+	public ManagerBookListView(Scene scene, Stage primaryStage, BorderPane root) {
 		super();
+		this.scene = scene;
 		this.primaryStage = primaryStage;
 		this.root = root;
 	}
 
-	public BorderPane getBookSearch() {
+	public BorderPane getBookList() {
 
 		BorderPane root = new BorderPane();
 		root.setPrefSize(1000, 700);
@@ -55,7 +59,7 @@ public class BookSearchView {
 		textField = new TextField();
 		textField.setPrefSize(250, 50);
 		
-		searchBtn = new Button("도서 검색");
+		searchBtn = new Button("도서검색");
 		searchBtn.setPrefSize(150, 50);
 		searchBtn.setOnAction(e->{
 			BookSearchByKeywordController controller = new BookSearchByKeywordController();
@@ -65,36 +69,39 @@ public class BookSearchView {
 			textField.clear();
 		});
 		
-		rentBtn = new Button("대여");
-		rentBtn.setPrefSize(130, 50);
-        rentBtn.setDisable(true);
-        rentBtn.setOnAction(e-> {
-        	
+		addBtn = new Button("도서추가");
+		addBtn.setPrefSize(130, 50);
+//        addBtn.setOnAction(e-> {
+//        	
+//        });
+        
+        deleteBtn = new Button("도서삭제");
+		deleteBtn.setPrefSize(130, 50);
+		deleteBtn.setDisable(true);
+        deleteBtn.setOnAction(e-> {
+        	BookDeleteByISBNController controller = new BookDeleteByISBNController();
+        	ObservableList<BookVO> list = controller.getResult(deleteISBN, searchKeyword);
+			
+			tableView.setItems(list);
         });
         
-        returnBtn = new Button("반납");
-		returnBtn.setPrefSize(130, 50);
-        returnBtn.setOnAction(e-> {
-        	
-        });
-        
-        mypageBtn = new Button("마이페이지");
-		mypageBtn.setPrefSize(130, 50);
-        mypageBtn.setOnAction(e-> {
-        	
-        });
+        changeBtn = new Button("도서수정");
+		changeBtn.setPrefSize(130, 50);
+//        changeBtn.setOnAction(e-> {
+//        	
+//        });
         
         logOutBtn = new Button("로그아웃");
 		logOutBtn.setPrefSize(130, 50);
-        logOutBtn.setOnAction(e-> {
-        	
-        });
+//        logOutBtn.setOnAction(e-> {
+//        	
+//        });
         
 		flowpane.getChildren().add(textField);
 		flowpane.getChildren().add(searchBtn);
-		flowpane.getChildren().add(rentBtn);
-		flowpane.getChildren().add(returnBtn);
-		flowpane.getChildren().add(mypageBtn);
+		flowpane.getChildren().add(addBtn);
+		flowpane.getChildren().add(deleteBtn);
+		flowpane.getChildren().add(changeBtn);
 		flowpane.getChildren().add(logOutBtn);
 		
 		TableColumn<BookVO, String> isbnColumn = new TableColumn<>("ISBN");
@@ -140,7 +147,9 @@ public class BookSearchView {
 						dialog.showAndWait();
 						
 					} else {
-						rentBtn.setDisable(false);
+						deleteBtn.setDisable(false);
+						BookVO book = row.getItem();
+						deleteISBN = book.getBisbn();
 					}
 				});	 return row;
 			});
@@ -150,7 +159,6 @@ public class BookSearchView {
 	
 		
 		return root;
-  
-		}
-	
+	}
+
 }
