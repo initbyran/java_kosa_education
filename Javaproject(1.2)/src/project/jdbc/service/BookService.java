@@ -2,6 +2,7 @@ package project.jdbc.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javafx.collections.ObservableList;
 import project.jdbc.dao.BookDAO;
@@ -75,6 +76,51 @@ public class BookService {
 		
 			e.printStackTrace();
 		}
+		return list;
+	}
+
+	public void insertBook(String isbn, String title, String author, String publisher, String date, String page,
+			String translator) {
+
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+		dao.insertAll(isbn,title,author,publisher,date,page,translator);
+		
+	}
+
+	public void insertRentalInfo(String isbn, String title, String author, String publisher, String id, Date date,
+			Date duedate) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+		dao.insert(isbn,title,author,publisher,id,date,duedate);
+		
+	}
+
+	public ObservableList<BookVO> updateByISBN(String borrowedISBN, String searchKeyword) {
+		
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+		dao.update(borrowedISBN,searchKeyword);
+		ObservableList<BookVO> list = dao.selectAll(searchKeyword);
+	
 		return list;
 	}
 }

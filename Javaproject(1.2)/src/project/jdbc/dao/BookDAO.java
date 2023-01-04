@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +25,7 @@ public class BookDAO {
 	public ObservableList<BookVO> selectAll(String text){
 		ObservableList<BookVO> list = null;
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT bisbn, btitle, bauthor, bpublisher ");
+		sql.append("SELECT bisbn, btitle, bauthor, bpublisher, bborrowable ");
 		sql.append("FROM book ");
 		sql.append("WHERE btitle like ? ");
 		
@@ -35,7 +36,7 @@ public class BookDAO {
 			ResultSet rs = pstmt.executeQuery();
 			list = FXCollections.observableArrayList();
 			while (rs.next()) {
-				BookVO book = new BookVO(rs.getString("bisbn"),rs.getString("btitle"),rs.getString("bauthor"),rs.getString("bpublisher"));
+				BookVO book = new BookVO(rs.getString("bisbn"),rs.getString("btitle"),rs.getString("bauthor"),rs.getString("bpublisher"),rs.getString("bborrowable"));
 	            list.add(book);
 			}
 			rs.close();
@@ -92,5 +93,70 @@ public class BookDAO {
 		}
 		
 		return count;
+	}
+
+	public void insertAll(String isbn, String title,  String date, String page, String author, 
+			String translator, String publisher) {
+	
+		String sql = "INSERT INTO book VALUES (?,?,?,?,null,?,?,null,?,null,null)";
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, isbn);
+			pstmt.setString(2, title);
+			pstmt.setString(3, date);
+			pstmt.setString(4, page);
+			pstmt.setString(5, author);
+			pstmt.setString(6, translator);
+			pstmt.setString(7, publisher);
+			
+			int Count = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public void insert(String isbn, String title,  String author, 
+			String publisher, String id, Date date, Date duedate) {
+	
+		String sql = "INSERT INTO bookrental VALUES (?,?,?,?,?,?,?)";
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, isbn);
+			pstmt.setString(2, title);
+			pstmt.setString(3, author);
+			pstmt.setString(4, publisher);
+			pstmt.setString(5, id);
+			pstmt.setDate(6, (java.sql.Date)date);
+			pstmt.setDate(7, (java.sql.Date)duedate);
+			
+			int Count = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public void update(String borrowedISBN, String searchKeyword) {
+		String sql = "UPDATE book SET bborrowable = '대여중' WHERE bisbn = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, borrowedISBN);
+			
+			int Count = pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 }

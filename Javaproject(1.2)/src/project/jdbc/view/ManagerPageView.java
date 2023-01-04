@@ -14,16 +14,17 @@ public class ManagerPageView {
 
 	Scene scene = null;
 	Stage primaryStage = null;
-    BorderPane root = null;
+    BorderPane login = null;
    
     Button bookListBtn;
     Button overdueBtn;
     Button membershipBtn;
     
-	public ManagerPageView(Stage primaryStage, BorderPane root) {
+	public ManagerPageView(Stage primaryStage,Scene scene ,BorderPane root) {
 		super();
 		this.primaryStage = primaryStage;
-		this.root = root;
+		this.scene=scene;
+		this.login = root;
 	}
 	
 
@@ -43,7 +44,7 @@ public class ManagerPageView {
 		bookListBtn = new Button("도서관리");
 		bookListBtn.setPrefSize(300, 40);
 		bookListBtn.setOnAction(e->{
-			ManagerBookListView managerBookListView = new ManagerBookListView(scene,primaryStage,root);
+			ManagerBookListView managerBookListView = new ManagerBookListView(scene,primaryStage,root,login);
 			scene = new Scene(managerBookListView.getBookList());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("관리자 도서 관리");
@@ -59,11 +60,12 @@ public class ManagerPageView {
 		membershipBtn = new Button("회원관리");
 		membershipBtn.setPrefSize(300, 40);
 		membershipBtn.setOnAction(e->{
-			ManagerMembershipView managerMembershipView = new ManagerMembershipView(scene,primaryStage,root);
+			ManagerMembershipView managerMembershipView = new ManagerMembershipView(scene,primaryStage,root,login);
 			scene = new Scene(managerMembershipView.getMemberList());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("관리자 회원 관리");
 		});
+		
 		flowpane.getChildren().add(bookListBtn);
 		flowpane.getChildren().add(overdueBtn);
 		flowpane.getChildren().add(membershipBtn);

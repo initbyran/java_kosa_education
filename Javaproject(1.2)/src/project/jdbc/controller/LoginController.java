@@ -6,11 +6,11 @@ import project.jdbc.vo.RentalInfoVO;
 
 public class LoginController {
 	
-	public MembershipVO getResult(String loginId) {
-		MembershipVO membership = new MembershipVO();
+	public boolean getResult(String loginId, String loginpw) {
+		
 		MembershipService service = new MembershipService();
-		membership = service.selectMemberByID(loginId);
-		return membership;
+		boolean b = service.selectMemberByID(loginId, loginpw);
+		return b;
 	}
 
 	public RentalInfoVO getResult2(String managerId) {

@@ -1,9 +1,12 @@
 package project.jdbc.view;
 
+import java.util.Date;
+import java.time.LocalDate;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -12,12 +15,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import project.jdbc.controller.BookDetailByISBNController;
 import project.jdbc.controller.BookSearchByKeywordController;
+import project.jdbc.controller.BorrowBookController;
 import project.jdbc.vo.BookVO;
 
 public class BookSearchView {
@@ -25,20 +30,25 @@ public class BookSearchView {
     TableView<BookVO> tableView;
     TextField textField;
     Button searchBtn;
-    Button rentBtn;
+    Button borrowBtn;
     Button returnBtn;
     Button mypageBtn;
     Button logOutBtn;
     
+    String loginId;
     String searchKeyword;
     String rowData;
+    Scene scene = null;
     Stage primaryStage = null;
-    BorderPane root = null;
+    BorderPane login = null;
 
-	public BookSearchView(Stage primaryStage, BorderPane root) {
+	public BookSearchView(Stage primaryStage,BorderPane root,Scene scene,String loginId) {
 		super();
+		
 		this.primaryStage = primaryStage;
-		this.root = root;
+		this.login = root;
+		this.scene = scene;
+		this.loginId = loginId;
 	}
 
 	public BorderPane getBookSearch() {
@@ -65,12 +75,10 @@ public class BookSearchView {
 			textField.clear();
 		});
 		
-		rentBtn = new Button("대여");
-		rentBtn.setPrefSize(130, 50);
-        rentBtn.setDisable(true);
-        rentBtn.setOnAction(e-> {
-        	
-        });
+		borrowBtn = new Button("대여");
+		borrowBtn.setPrefSize(130, 50);
+		borrowBtn.setDisable(true);
+		
         
         returnBtn = new Button("반납");
 		returnBtn.setPrefSize(130, 50);
@@ -82,17 +90,31 @@ public class BookSearchView {
 		mypageBtn.setPrefSize(130, 50);
         mypageBtn.setOnAction(e-> {
         	
+        	MyPageView myPageView = new MyPageView(scene, primaryStage, login);
+        	scene = new Scene(myPageView.getMyPage());
+        	primaryStage.setScene(scene);
+        	primaryStage.setTitle("마이페이지");
         });
         
         logOutBtn = new Button("로그아웃");
 		logOutBtn.setPrefSize(130, 50);
         logOutBtn.setOnAction(e-> {
-        	
+        	Dialog<String> dialog = new Dialog<String>();
+			dialog.setTitle("로그아웃");
+			ButtonType type = new ButtonType("로그아웃", ButtonData.OK_DONE);
+			String str = "로그아웃하시겠습니까?";
+			dialog.setContentText(str);
+			dialog.getDialogPane().getButtonTypes().add(type);
+			dialog.getDialogPane().setMinHeight(300);
+			dialog.showAndWait();
+			
+			scene.setRoot(login);
+			primaryStage.setScene(scene);
         });
         
 		flowpane.getChildren().add(textField);
 		flowpane.getChildren().add(searchBtn);
-		flowpane.getChildren().add(rentBtn);
+		flowpane.getChildren().add(borrowBtn);
 		flowpane.getChildren().add(returnBtn);
 		flowpane.getChildren().add(mypageBtn);
 		flowpane.getChildren().add(logOutBtn);
@@ -111,7 +133,7 @@ public class BookSearchView {
 		publisherColumn.setCellValueFactory(new PropertyValueFactory<>("bpublisher"));
 		TableColumn<BookVO, String> statusColumn = new TableColumn<>("대여여부");
 		statusColumn.setMinWidth(180);
-		statusColumn.setCellValueFactory(new PropertyValueFactory<>("rduedate"));
+		statusColumn.setCellValueFactory(new PropertyValueFactory<>("bborrowable"));
 			
 		tableView = new TableView<BookVO>();
 		
@@ -140,7 +162,35 @@ public class BookSearchView {
 						dialog.showAndWait();
 						
 					} else {
-						rentBtn.setDisable(false);
+						borrowBtn.setDisable(false);
+						borrowBtn.setOnAction(e1-> {
+							String str1 = "대여중";
+							if(row.getItem().getBborrowable().equals(str1)) {
+								borrowBtn.setDisable(true);
+								Alert borrowFail = new Alert(AlertType.ERROR);
+								borrowFail.setHeaderText("대여 불가능");
+								borrowFail.setContentText("이미 대여 중인 도서입니다.");
+								borrowFail.showAndWait();
+							}else {
+				        	BorrowBookController controller = new BorrowBookController();
+				        	Date date = java.sql.Date.valueOf(java.time.LocalDate.now());
+				            LocalDate now = LocalDate.now();
+				        	Date duedate = java.sql.Date.valueOf(now.plusDays(14));
+				        	
+				        	controller.getResult(row.getItem().getBisbn(),row.getItem().getBtitle(),row.getItem().getBauthor(),row.getItem().getBpublisher(),loginId, date,duedate);
+				        	
+				        	ObservableList<BookVO> list = controller.getResult2(row.getItem().getBisbn(),searchKeyword);
+				        	tableView.setItems(list);
+				        	Dialog<String> dialog = new Dialog<String>();
+							dialog.setTitle("도서 대여 완료");
+							ButtonType type = new ButtonType("확인", ButtonData.OK_DONE);
+							String str = "대여가 완료되었습니다."+"\n"+"대여기간은 대여일로부터 14일입니다."+"(700포인트가 적립되었습니다.)";
+							dialog.setContentText(str);
+							dialog.getDialogPane().getButtonTypes().add(type);
+							dialog.getDialogPane().setMinHeight(300);
+							dialog.showAndWait();
+							}
+				        });
 					}
 				});	 return row;
 			});

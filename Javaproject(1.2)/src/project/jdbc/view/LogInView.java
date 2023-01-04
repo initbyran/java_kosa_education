@@ -10,18 +10,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import project.jdbc.controller.LoginController;
+import project.jdbc.service.MembershipService;
 
 public class LogInView extends Application {
  
 	Scene scene = null;
 	TextField idField;
-	TextField passwordField;
+	PasswordField passwordField;
 	Button logInBtn;
 	Button signUpBtn;
 	Button managerLogInBtn;
@@ -53,8 +55,10 @@ public class LogInView extends Application {
 		pw.setPrefSize(80, 40);
 		pw.setAlignment(Pos.CENTER_RIGHT);
 		idField = new TextField();
+		idField.setText("test");
 		idField.setPrefSize(250, 40);
-		passwordField = new TextField();
+		passwordField = new PasswordField();
+		passwordField.setText("test");
 		passwordField.setPrefSize(250, 40);
 		
 		FlowPane idFlowPane = new FlowPane();
@@ -88,8 +92,9 @@ public class LogInView extends Application {
 	        loginId = idField.getText();
 	    	loginPw = passwordField.getText();
 	    	
-	    	if(loginPw.equals(controller.getResult(loginId).getMpw())) {
-			 BookSearchView bookSearchView = new BookSearchView(primaryStage,root);
+	    	if(controller.getResult(loginId, loginPw)) {
+	    		
+			 BookSearchView bookSearchView = new BookSearchView(primaryStage,root,scene,loginId);
 	         scene = new Scene(bookSearchView.getBookSearch());
 	         primaryStage.setScene(scene);
 	         primaryStage.setTitle("도서 검색 & 대여");
@@ -109,7 +114,7 @@ public class LogInView extends Application {
 		    loginPw = passwordField.getText();
 		    
 		    if(loginPw.equals(controller.getResult2(loginId).getManagerpw())) {
-		    	ManagerPageView managerPageView = new ManagerPageView(primaryStage,root);
+		    	ManagerPageView managerPageView = new ManagerPageView(primaryStage,scene,root);
 		    	scene = new Scene(managerPageView.getmanagerPage());
 		    	primaryStage.setScene(scene);
 		    	primaryStage.setTitle("관리자 페이지");

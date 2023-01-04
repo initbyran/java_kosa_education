@@ -1,19 +1,41 @@
 package project.jdbc.vo;
 
+import java.sql.Date;
+
 public class MembershipVO {
 
 	private String mid;
 	private String mpw;
 	private String mname;
-	private String mldate;
 	private String mbirth;
 	private String mphonenumber;
 	private String memail;
+	private Date mregdate;
+	
 	private int mpluspoint;
 	private int mminuspoint;
 	private int mtotalpoint;
 	
 	public MembershipVO() {
+	}
+
+	public Date getMregdate() {
+		return mregdate;
+	}
+
+	public void setMregdate(Date mregdate) {
+		this.mregdate = mregdate;
+	}
+
+	public MembershipVO(String mid, String mname, String mbirth, String mphonenumber,
+			String memail, Date mregdate) {
+		super();
+		this.mid = mid;
+		this.mname = mname;
+		this.mbirth = mbirth;
+		this.mphonenumber = mphonenumber;
+		this.memail = memail;
+		this.mregdate = mregdate;
 	}
 
 	public MembershipVO(String mid, String mpw) {
@@ -44,14 +66,6 @@ public class MembershipVO {
 
 	public void setMname(String mname) {
 		this.mname = mname;
-	}
-
-	public String getMldate() {
-		return mldate;
-	}
-
-	public void setMldate(String mldate) {
-		this.mldate = mldate;
 	}
 
 	public String getMbirth() {

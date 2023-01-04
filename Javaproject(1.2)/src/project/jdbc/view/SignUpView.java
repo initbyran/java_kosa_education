@@ -1,5 +1,10 @@
 package project.jdbc.view;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -101,7 +106,8 @@ public class SignUpView {
 		signUpBtn.setOnAction(e->{
 			SignUpController controller = new SignUpController();
 			
-            controller.getResult(idField.getText(),pwField.getText(),nameField.getText(),birthField.getText(),phoneField.getText(),emailField.getText());
+			Date date=java.sql.Date.valueOf(java.time.LocalDate.now());
+            controller.getResult(idField.getText(),pwField.getText(),nameField.getText(),birthField.getText(),phoneField.getText(),emailField.getText(),date);
 			
 			Dialog<String> dialog = new Dialog<String>();
 			dialog.setTitle("가입 성공");
@@ -111,7 +117,7 @@ public class SignUpView {
 			dialog.getDialogPane().getButtonTypes().add(type);
 			dialog.getDialogPane().setMinHeight(300);
 			dialog.showAndWait();
-			
+	
 			scene.setRoot(login);
 			primaryStage.setScene(scene);
 			

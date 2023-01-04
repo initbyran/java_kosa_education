@@ -161,6 +161,7 @@ public class BookSearchMVC extends Application {
 						// 위에서 만들어진 컬럼객체를 TableView에 붙여요!
 						tableView1.getColumns().addAll(dateColumn, pageColumn, supplementColumn, publisherColumn);
 						tableView1.setItems(list);
+						
 						Stage dialog = new Stage(StageStyle.UTILITY);
 						dialog.initModality(Modality.WINDOW_MODAL);
 						dialog.initOwner(primaryStage);

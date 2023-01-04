@@ -10,23 +10,33 @@ public class BookVO {
 	private String bdate;
 	private int bpage;
 	private String btranslator;
-	
+	private String bborrowable;
 	private String rduedate;
 	
 	public BookVO() {
 		
 	}
 
-
-	public BookVO(String bisbn, String btitle, String bauthor, String bpublisher) {
+	public BookVO(String bisbn, String btitle, String bauthor, String bpublisher,String bborrowable) {
 		super();
 		this.bisbn = bisbn;
 		this.btitle = btitle;
 		this.bauthor = bauthor;
 		this.bpublisher = bpublisher;
+		this.bborrowable = bborrowable;
 	}
 
 
+
+
+	public String getBborrowable() {
+		return bborrowable;
+	}
+
+
+	public void setBborrowable(String bborrowable) {
+		this.bborrowable = bborrowable;
+	}
 
 
 	public BookVO(String rduedate) {
