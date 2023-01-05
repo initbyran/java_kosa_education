@@ -11,8 +11,7 @@ public class BorrowBookController {
 	public void getResult(String isbn, String title, String author, String publisher, String id, Date date, Date duedate) {
 		BookService service = new BookService();
 		service.insertRentalInfo(isbn,title,author,publisher,id,date,duedate);
-		
-		
+	
 	}
 
 	public ObservableList<BookVO> getResult2(String borrowedISBN,String searchKeyword) {

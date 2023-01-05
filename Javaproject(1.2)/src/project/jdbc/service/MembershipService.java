@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import javafx.collections.ObservableList;
+import project.jdbc.dao.BookDAO;
 import project.jdbc.dao.DBCPConnectionPool;
 import project.jdbc.dao.MembershipDAO;
 import project.jdbc.vo.BookVO;
@@ -61,6 +62,19 @@ public class MembershipService {
 		
 	}
 
+	public MembershipVO selectMember(String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		MembershipVO membership = new MembershipVO();
+		MembershipDAO dao = new MembershipDAO(con);
+		membership = dao.selectOne(loginId);
+		return membership;
+	}
+	
 	public ObservableList<MembershipVO> selectMemberByKeyword(String text) {
 		Connection con = null;
 		try {
@@ -73,6 +87,36 @@ public class MembershipService {
 		ObservableList<MembershipVO> list = dao.selectAll(text);
 		
 		return list;
+	}
+
+	public ObservableList<MembershipVO> deleteMember(String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		MembershipDAO dao = new MembershipDAO(con);
+		
+		int count = dao.delete(loginId);
+		
+		ObservableList<MembershipVO> list = dao.selectAll(loginId);
+		return list;
+	}
+
+	public void updateMemberInfo(String id, String pw, String name, String birth, String phonenumber, String email, String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		MembershipDAO dao = new MembershipDAO(con);
+		
+		int count = dao.updateM(id,pw,name,birth,phonenumber,email,loginId);
+		
 	}
 
 	

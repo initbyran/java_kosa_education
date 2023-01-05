@@ -31,7 +31,7 @@ public class BookSearchView {
     TextField textField;
     Button searchBtn;
     Button borrowBtn;
-    Button returnBtn;
+   
     Button mypageBtn;
     Button logOutBtn;
     
@@ -80,17 +80,11 @@ public class BookSearchView {
 		borrowBtn.setDisable(true);
 		
         
-        returnBtn = new Button("반납");
-		returnBtn.setPrefSize(130, 50);
-        returnBtn.setOnAction(e-> {
-        	
-        });
-        
+    
         mypageBtn = new Button("마이페이지");
 		mypageBtn.setPrefSize(130, 50);
         mypageBtn.setOnAction(e-> {
-        	
-        	MyPageView myPageView = new MyPageView(scene, primaryStage, login);
+        	MyPageView myPageView = new MyPageView(scene, primaryStage, login, loginId);
         	scene = new Scene(myPageView.getMyPage());
         	primaryStage.setScene(scene);
         	primaryStage.setTitle("마이페이지");
@@ -115,7 +109,7 @@ public class BookSearchView {
 		flowpane.getChildren().add(textField);
 		flowpane.getChildren().add(searchBtn);
 		flowpane.getChildren().add(borrowBtn);
-		flowpane.getChildren().add(returnBtn);
+		
 		flowpane.getChildren().add(mypageBtn);
 		flowpane.getChildren().add(logOutBtn);
 		
@@ -181,6 +175,7 @@ public class BookSearchView {
 				        	
 				        	ObservableList<BookVO> list = controller.getResult2(row.getItem().getBisbn(),searchKeyword);
 				        	tableView.setItems(list);
+				        	
 				        	Dialog<String> dialog = new Dialog<String>();
 							dialog.setTitle("도서 대여 완료");
 							ButtonType type = new ButtonType("확인", ButtonData.OK_DONE);

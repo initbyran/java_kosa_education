@@ -125,8 +125,8 @@ public class SignUpView {
 		
 		gridPane.getChildren().addAll(id,idField,pw,pwField,name,nameField,birth,birthField,phone,phoneField,email,emailField);
 		flowPane.getChildren().add(signUpBtn);
-		gridPane.setAlignment(Pos.CENTER);
 		
+		gridPane.setAlignment(Pos.CENTER);
 		root.setCenter(gridPane);
 		root.setBottom(flowPane);
 		return root;

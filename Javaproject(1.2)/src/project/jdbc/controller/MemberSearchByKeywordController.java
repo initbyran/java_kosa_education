@@ -13,4 +13,13 @@ public class MemberSearchByKeywordController {
 		return list;
 	}
 
+	public MembershipVO getResult2(String loginId) {
+		MembershipVO membership = new MembershipVO();
+		MembershipService service = new MembershipService();
+		membership = service.selectMember(loginId);
+		
+		return membership;
+	}
+
+	
 }

@@ -1,5 +1,7 @@
 package project.jdbc.vo;
 
+import java.util.Date;
+
 public class BookVO {
 
 	private String bisbn;
@@ -11,12 +13,59 @@ public class BookVO {
 	private int bpage;
 	private String btranslator;
 	private String bborrowable;
-	private String rduedate;
+	
+	private String risbn;
+	private String rtitle;
+	private String rauthor;
+	private String rpublisher;
+	private String rid;
+	private Date rdate;
+	private Date rduedate;
+	
 	
 	public BookVO() {
 		
 	}
 
+	public BookVO(String risbn, String rtitle, String rauthor, String rpublisher, String rid, Date rdate, Date rduedate) {
+		super();
+		this.risbn = risbn;
+		this.rtitle = rtitle;
+		this.rauthor = rauthor;
+		this.rpublisher = rpublisher;
+		this.rid = rid;
+		this.rdate = rdate;
+		this.rduedate = rduedate;
+		
+	}
+
+	public BookVO(Date rduedate) {
+		super();
+		this.rduedate = rduedate;
+	}
+
+	public BookVO(String bisbn, String btitle, String bauthor, String bpublisher, String bdate, int bpage,
+			String btranslator) {
+		super();
+		this.bisbn = bisbn;
+		this.btitle = btitle;
+		this.bauthor = bauthor;
+		this.bpublisher = bpublisher;
+		this.bdate = bdate;
+		this.bpage = bpage;
+		this.btranslator = btranslator;
+	}
+
+	public BookVO(String risbn, String rtitle, String rauthor, String rpublisher, Date rduedate) {
+		super();
+		this.risbn = risbn;
+		this.rtitle = rtitle;
+		this.rauthor = rauthor;
+		this.rpublisher = rpublisher;
+		this.rduedate = rduedate;
+	}
+
+	
 	public BookVO(String bisbn, String btitle, String bauthor, String bpublisher,String bborrowable) {
 		super();
 		this.bisbn = bisbn;
@@ -26,23 +75,6 @@ public class BookVO {
 		this.bborrowable = bborrowable;
 	}
 
-
-
-
-	public String getBborrowable() {
-		return bborrowable;
-	}
-
-
-	public void setBborrowable(String bborrowable) {
-		this.bborrowable = bborrowable;
-	}
-
-
-	public BookVO(String rduedate) {
-		super();
-		this.rduedate = rduedate;
-	}
 
 
 	public BookVO(String bdate, Integer bpage, String btranslator) {
@@ -108,14 +140,51 @@ public class BookVO {
 	public void setBtranslator(String translator) {
 		this.btranslator = translator;
 	}
+	public String getBborrowable() {
+		return bborrowable;
+	}
 
-	public String getRduedate() {
+	public void setBborrowable(String bborrowable) {
+		this.bborrowable = bborrowable;
+	}
+	public String getRisbn() {
+		return risbn;
+	}
+
+	public void setRisbn(String risbn) {
+		this.risbn = risbn;
+	}
+
+	public String getRtitle() {
+		return rtitle;
+	}
+
+	public void setRtitle(String rtitle) {
+		this.rtitle = rtitle;
+	}
+
+	public String getRauthor() {
+		return rauthor;
+	}
+
+	public void setRauthor(String rauthor) {
+		this.rauthor = rauthor;
+	}
+
+	public String getRpublisher() {
+		return rpublisher;
+	}
+
+	public void setRpublisher(String rpublisher) {
+		this.rpublisher = rpublisher;
+	}
+	public Date getRduedate() {
 		return rduedate;
 	}
 
-	public void setRduedate(String rduedate) {
+	public void setRduedate(Date rduedate) {
 		this.rduedate = rduedate;
 	}
-	
+
 	
 }

@@ -72,8 +72,7 @@ public class ManagerMembershipView {
 		
 		textField = new TextField();
 		textField.setPrefSize(250, 50);
-		
-		
+
 		searchBtn = new Button("회원검색");
 		searchBtn.setPrefSize(150, 50);
 		searchBtn.setOnAction(e->{

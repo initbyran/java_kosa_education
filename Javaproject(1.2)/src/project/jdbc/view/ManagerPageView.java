@@ -1,5 +1,8 @@
 package project.jdbc.view;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -9,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import project.jdbc.controller.BookEditController;
 
 public class ManagerPageView {
 
@@ -51,11 +55,13 @@ public class ManagerPageView {
 		});
 		overdueBtn = new Button("미납 현황");
 		overdueBtn.setPrefSize(300, 40);
-		overdueBtn.setOnAction(e->{
-			ManagerOverdueView managerOverdueView = new ManagerOverdueView(scene,primaryStage,root);
+		overdueBtn.setOnAction(e->{ 
+	
+			ManagerOverdueView managerOverdueView = new ManagerOverdueView(scene,primaryStage,root,login);
 			scene = new Scene(managerOverdueView.getOverdueList());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("관리자 미납 현황");
+			
 		});
 		membershipBtn = new Button("회원관리");
 		membershipBtn.setPrefSize(300, 40);

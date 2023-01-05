@@ -2,12 +2,15 @@ package project.jdbc.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javafx.collections.ObservableList;
 import project.jdbc.dao.BookDAO;
 import project.jdbc.dao.DBCPConnectionPool;
+import project.jdbc.dao.MembershipDAO;
 import project.jdbc.vo.BookVO;
+import project.jdbc.vo.MembershipVO;
 
 public class BookService {
 
@@ -26,6 +29,19 @@ public class BookService {
 		return list;
 	}
 
+	public ObservableList<BookVO> selectBookrental(String loginId) {
+		Connection con = null;
+		try {
+		      con = (DBCPConnectionPool.getDataSource()).getConnection();
+		      con.setAutoCommit(false);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		BookDAO dao = new BookDAO(con);
+		ObservableList<BookVO> list = dao.selectAllBookRental(loginId);
+		return list;
+	}
 	public BookVO selectDetailsByKeyword(String bisbn) {
 		Connection con = null;
 		try {
@@ -39,6 +55,21 @@ public class BookService {
 		BookVO book = dao.select(bisbn);
 		
  		return book;
+	}
+	public ObservableList<BookVO> deleteByRisbn(String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+			con.setAutoCommit(false); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+		
+		int count = dao.deleteR(loginId);
+		ObservableList<BookVO> list = dao.selectAllBookRental(loginId);
+		return list;
 	}
 
 	public ObservableList<BookVO> deleteByISBN(String deleteISBN, String searchKeyword) {
@@ -123,4 +154,76 @@ public class BookService {
 	
 		return list;
 	}
+
+	public ObservableList<BookVO> updateByRisbn(String risbn) {
+		
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+		dao.updateReturn(risbn);
+		ObservableList<BookVO> list = dao.selectAll(risbn);
+	
+		return list;
+	}
+
+	public void updateBookInfo(String isbn, String title, String author, String publisher, String date, int page,
+			String translator, String updateISBN) {
+		
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+		
+		int count = dao.updateB(isbn,title,author,publisher,date,page,publisher,updateISBN);
+	}
+
+	public BookVO selectB(String updateISBN) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    BookVO book = new BookVO();
+		BookDAO dao = new BookDAO(con);
+		book = dao.selectOne(updateISBN);
+		return book;
+	}
+
+	public BookVO selectDate(String risbn) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    BookVO book = new BookVO();
+		BookDAO dao = new BookDAO(con);
+		book = dao.selectD(risbn);
+		return book;
+	}
+
+	public ObservableList<BookVO> selectOverdueBook() {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+		ObservableList<BookVO> list = dao.selectOverdue();
+	
+		return list; 
+		}
+
 }

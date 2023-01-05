@@ -27,6 +27,17 @@ public class MembershipVO {
 		this.mregdate = mregdate;
 	}
 
+	
+	public MembershipVO(String mid, String mpw, String mname, String mbirth, String mphonenumber, String memail) {
+		super();
+		this.mid = mid;
+		this.mpw = mpw;
+		this.mname = mname;
+		this.mbirth = mbirth;
+		this.mphonenumber = mphonenumber;
+		this.memail = memail;
+	}
+
 	public MembershipVO(String mid, String mname, String mbirth, String mphonenumber,
 			String memail, Date mregdate) {
 		super();

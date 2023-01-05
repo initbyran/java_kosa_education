@@ -1,31 +1,44 @@
 package project.jdbc.view;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import project.jdbc.controller.UnregisterController;
+import project.jdbc.vo.BookVO;
+import project.jdbc.vo.MembershipVO;
 
 public class MyPageView {
 
 	Scene scene = null;
 	Stage primaryStage = null;
 	BorderPane login = null;
-	
+	TableView<BookVO> tableView;
 	Button myInfoBtn;
 	Button bookListBtn;
 	Button pointBtn;
 	Button dropBtn;
+	
+	String loginId;
 
-	public MyPageView(Scene scene, Stage primaryStage, BorderPane login) {
+	public MyPageView(Scene scene, Stage primaryStage, BorderPane login, String loginId) {
 		super();
 		this.scene = scene;
 		this.primaryStage = primaryStage;
 		this.login = login;
+		this.loginId = loginId;
 	}
 
 	public BorderPane getMyPage() {
@@ -44,8 +57,8 @@ public class MyPageView {
 		myInfoBtn = new Button("내 정보 수정");
 		myInfoBtn.setPrefSize(300, 40);
 		myInfoBtn.setOnAction(e->{
-			MyInfoView myInfoView = new MyInfoView();
-			scene = new Scene(MyInfoView.getMyInfo(scene,primaryStage,root,login));
+			MyInfoView myInfoView = new MyInfoView(scene, primaryStage, root, login, loginId);
+			scene = new Scene(myInfoView.getMyInfo());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("내 정보 수정");
 		});
@@ -53,8 +66,8 @@ public class MyPageView {
 		pointBtn = new Button("포인트 내역");
 		pointBtn.setPrefSize(300, 40);
 		pointBtn.setOnAction(e->{
-			ManagerMembershipView managerMembershipView = new ManagerMembershipView(scene,primaryStage,root,login);
-			scene = new Scene(managerMembershipView.getMemberList());
+//			ManagerMembershipView managerMembershipView = new ManagerMembershipView(scene,primaryStage,root,login);
+//			scene = new Scene(managerMembershipView.getMemberList());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("포인트 내역");
 		});
@@ -62,8 +75,8 @@ public class MyPageView {
 		bookListBtn = new Button("도서대여현황 & 반납하기");
 		bookListBtn.setPrefSize(300, 40);
 		bookListBtn.setOnAction(e->{
-			ManagerBookListView managerBookListView = new ManagerBookListView(scene,primaryStage,root,login);
-			scene = new Scene(managerBookListView.getBookList());
+			BorrowedBookListView borrowedBookListView = new BorrowedBookListView(scene,primaryStage,root,login,loginId);
+			scene = new Scene(borrowedBookListView.getBookList(loginId));
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("도서 대여 목록");
 		});
@@ -71,7 +84,19 @@ public class MyPageView {
 		dropBtn = new Button("회원 탈퇴");
 		dropBtn.setPrefSize(300, 40);
 		dropBtn.setOnAction(e->{
-			
+			UnregisterController unregisterController = new UnregisterController();
+		    ObservableList<MembershipVO> list = unregisterController.getResult(loginId);
+		    
+			Dialog<String> dialog = new Dialog<String>();
+			dialog.setTitle("회원탈퇴");
+			ButtonType type = new ButtonType("탈퇴하기", ButtonData.OK_DONE);
+			String str = "정말로 탈퇴하시겠습니까?"+"\n"+"(모든 개인정보는 즉시 삭제됩니다.)";
+			dialog.setContentText(str);
+			dialog.getDialogPane().getButtonTypes().add(type);
+			dialog.getDialogPane().setMinHeight(300);
+			dialog.showAndWait();
+        	scene.setRoot(login);
+			primaryStage.setScene(scene);
 		});
 		
 		flowpane.getChildren().add(myInfoBtn);
