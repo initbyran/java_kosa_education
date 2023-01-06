@@ -91,6 +91,7 @@ public class BorrowedBookListView {
 			dialog.getDialogPane().getButtonTypes().add(type);
 			dialog.getDialogPane().setMinHeight(300);
 			dialog.showAndWait();
+			
         	scene.setRoot(login);
 			primaryStage.setScene(scene);
 		});

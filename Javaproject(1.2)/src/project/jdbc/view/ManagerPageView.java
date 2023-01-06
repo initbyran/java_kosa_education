@@ -26,7 +26,6 @@ public class ManagerPageView {
 		this.scene=scene;
 		this.login = root;
 	}
-	
 
 	public BorderPane getmanagerPage() {
 		
@@ -56,7 +55,7 @@ public class ManagerPageView {
 			ManagerOverdueView managerOverdueView = new ManagerOverdueView(scene,primaryStage,root,login);
 			scene = new Scene(managerOverdueView.getOverdueList());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("관리자 미납 현황");
+			primaryStage.setTitle("관리자 미납 현황"); 
 			
 		});
 		membershipBtn = new Button("회원관리");
