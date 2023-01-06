@@ -1,8 +1,5 @@
 package project.jdbc.view;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -12,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import project.jdbc.controller.BookEditController;
 
 public class ManagerPageView {
 

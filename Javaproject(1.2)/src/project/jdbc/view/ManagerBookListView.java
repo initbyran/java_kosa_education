@@ -176,7 +176,7 @@ public class ManagerBookListView {
 			addBookBtn.setOnAction(e1->{
 				AddBookController controller = new AddBookController();
 				controller.getResult
-				(isbnField.getText(),titleField.getText(),authorField.getText(),publisherField.getText(),dateField.getText(),pageField.getText(),translatorField.getText());
+				(isbnField.getText(),titleField.getText(),authorField.getText(),publisherField.getText(),dateField.getText(),Integer.parseInt(pageField.getText()),translatorField.getText());
 		        
 				Dialog<String> dialog = new Dialog<String>();
 				dialog.setTitle("도서 추가 성공");

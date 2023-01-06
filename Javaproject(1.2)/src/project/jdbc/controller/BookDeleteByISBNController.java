@@ -13,9 +13,9 @@ public class BookDeleteByISBNController {
 				service.deleteByISBN(deleteISBN, searchKeyword);
 		return list;
 }
-	public ObservableList<BookVO> getResult2(String loginId) {
+	public ObservableList<BookVO> getResult2(String risbn, String loginId) {
 		BookService service = new BookService();
-		ObservableList<BookVO> list = service.deleteByRisbn(loginId);
+		ObservableList<BookVO> list = service.deleteByRisbn(risbn, loginId);
 		return list;
 	}
 

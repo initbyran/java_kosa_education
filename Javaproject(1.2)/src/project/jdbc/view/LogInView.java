@@ -14,10 +14,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import project.jdbc.controller.LoginController;
-import project.jdbc.service.MembershipService;
 
 public class LogInView extends Application {
  

@@ -1,5 +1,7 @@
 package project.jdbc.view;
 
+import java.sql.Date;
+
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -74,10 +76,10 @@ public class ManagerOverdueView {
 		TableColumn<BookVO, String> ridColumn = new TableColumn<>("대여자");
 		ridColumn.setMinWidth(100);
 		ridColumn.setCellValueFactory(new PropertyValueFactory<>("rid"));
-		TableColumn<BookVO, String> rdateColumn = new TableColumn<>("대여일");
+		TableColumn<BookVO, Date> rdateColumn = new TableColumn<>("대여일");
 		rdateColumn.setMinWidth(120);
 		rdateColumn.setCellValueFactory(new PropertyValueFactory<>("rdate"));
-		TableColumn<BookVO, String> duedateColumn = new TableColumn<>("대여예정일");
+		TableColumn<BookVO, Date> duedateColumn = new TableColumn<>("대여예정일");
 		duedateColumn.setMinWidth(120);
 		duedateColumn.setCellValueFactory(new PropertyValueFactory<>("rduedate"));
 		TableColumn<BookVO, String> overdueColumn = new TableColumn<>("");

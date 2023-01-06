@@ -117,12 +117,12 @@ public class BookDAO {
 		return count;
 	}
 
-	public int deleteR(String loginId) {
-		String sql = "DELETE FROM bookrental WHERE rid = ?";
+	public int deleteR(String risbn) {
+		String sql = "DELETE FROM bookrental WHERE risbn = ?";
 		int count = 0;
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, loginId);
+			pstmt.setString(1, risbn);
 			
 			count = pstmt.executeUpdate();
 		
@@ -135,17 +135,17 @@ public class BookDAO {
 		return count;
 	}
 
-	public void insertAll(String isbn, String title,  String date, String page, String author, 
-			String translator, String publisher) {
+	public void insertAll(String isbn, String title,  String author, 
+			String publisher, String date, int page, String translator) {
 	
-		String sql = "INSERT INTO book VALUES (?,?,?,?,null,?,?,null,?,null,null)";
+		String sql = "INSERT INTO book VALUES (?,?,?,?,null,?,?,null,?,null,null,null)";
 		
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, isbn);
 			pstmt.setString(2, title);
 			pstmt.setString(3, date);
-			pstmt.setString(4, page);
+			pstmt.setInt(4, page);
 			pstmt.setString(5, author);
 			pstmt.setString(6, translator);
 			pstmt.setString(7, publisher);
@@ -163,7 +163,7 @@ public class BookDAO {
 	public void insert(String isbn, String title,  String author, 
 			String publisher, String id, Date date, Date duedate) {
 	
-		String sql = "INSERT INTO bookrental VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO bookrental VALUES (?,?,?,?,?,?,?,null)";
 		
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -277,17 +277,33 @@ public class BookDAO {
 		return book;
 	}
 
-	public ObservableList<BookVO> selectOverdue() {
+	public BookVO selectOverdue() {
+		BookVO book = null;
+		String sql = "SELECT * FROM bookrental WHERE DATEDIFF(rduedate, curdate()) < 0 ;";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				book = new BookVO(rs.getString("risbn"),rs.getString("rtitle"),rs.getString("rauthor"),rs.getString("rpublisher"),rs.getString("rid"),rs.getDate("rdate"),rs.getDate("rduedate"),rs.getString("roverdue"));
+	    
+			}   rs.close();
+				pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return book;
+	}
 
+	public ObservableList<BookVO> selectO() {
 		ObservableList<BookVO> list = null;
-		
 		String sql = "SELECT * FROM bookrental WHERE DATEDIFF(rduedate, curdate()) < 0 ;";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			list = FXCollections.observableArrayList();
 			while (rs.next()) {
-				BookVO book = new BookVO(rs.getString("risbn"),rs.getString("rtitle"),rs.getString("rauthor"),rs.getString("rpublisher"),rs.getString("rid"),rs.getDate("rdate"),rs.getDate("rduedate"));
+				BookVO book = new BookVO(rs.getString("risbn"),rs.getString("rtitle"),rs.getString("rauthor"),rs.getString("rpublisher"),rs.getString("rid"),rs.getDate("rdate"),rs.getDate("rduedate"),rs.getString("roverdue"));
 	            list.add(book);
 			}   rs.close();
 				pstmt.close();
@@ -297,4 +313,23 @@ public class BookDAO {
 		return list;
 	}
 	
+	public BookVO selectB(String loginId) {
+
+		BookVO book=null;
+		
+		String sql = "SELECT rtitle FROM bookrental WHERE rid = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, loginId);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				book = new BookVO(rs.getString("rtitle"));
+			}
+			rs.close();
+			pstmt.close();
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+		} return book;
+	}
 }

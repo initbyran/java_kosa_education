@@ -1,8 +1,5 @@
 package project.jdbc.view;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javafx.geometry.HPos;
@@ -35,6 +32,7 @@ public class SignUpView {
 		this.primaryStage = primaryStage;
 		this.login = root;
 		this.scene=scene;
+
 	}
 
 	public BorderPane getSignUP() {
@@ -108,7 +106,7 @@ public class SignUpView {
 			
 			Date date=java.sql.Date.valueOf(java.time.LocalDate.now());
             controller.getResult(idField.getText(),pwField.getText(),nameField.getText(),birthField.getText(),phoneField.getText(),emailField.getText(),date);
-			
+		
 			Dialog<String> dialog = new Dialog<String>();
 			dialog.setTitle("가입 성공");
 			ButtonType type = new ButtonType("로그인하러가기", ButtonData.OK_DONE);

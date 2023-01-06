@@ -18,7 +18,7 @@ public class BookService {
 		Connection con = null;
 		try {
 		      con = (DBCPConnectionPool.getDataSource()).getConnection();
-		      con.setAutoCommit(false);
+		     
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -33,7 +33,7 @@ public class BookService {
 		Connection con = null;
 		try {
 		      con = (DBCPConnectionPool.getDataSource()).getConnection();
-		      con.setAutoCommit(false);
+		  
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -46,17 +46,17 @@ public class BookService {
 		Connection con = null;
 		try {
 		      con = (DBCPConnectionPool.getDataSource()).getConnection();
-		      con.setAutoCommit(false);
+		     
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	
+		
 		BookDAO dao = new BookDAO(con);
 		BookVO book = dao.select(bisbn);
 		
  		return book;
 	}
-	public ObservableList<BookVO> deleteByRisbn(String loginId) {
+	public ObservableList<BookVO> deleteByRisbn(String risbn, String loginId) {
 		Connection con = null;
 		try {
 			con = (DBCPConnectionPool.getDataSource()).getConnection();
@@ -67,7 +67,24 @@ public class BookService {
 		
 		BookDAO dao = new BookDAO(con);
 		
-		int count = dao.deleteR(loginId);
+		int count = dao.deleteR(risbn);
+		if(count==1)
+		{
+			try {
+				con.commit();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else
+		{
+			try {
+				con.rollback();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		ObservableList<BookVO> list = dao.selectAllBookRental(loginId);
 		return list;
 	}
@@ -110,7 +127,7 @@ public class BookService {
 		return list;
 	}
 
-	public void insertBook(String isbn, String title, String author, String publisher, String date, String page,
+	public void insertBook(String isbn, String title, String author, String publisher, String date, int page,
 			String translator) {
 
 		Connection con = null;
@@ -155,21 +172,21 @@ public class BookService {
 		return list;
 	}
 
-	public ObservableList<BookVO> updateByRisbn(String risbn) {
-		
-		Connection con = null;
-		try {
-			con = (DBCPConnectionPool.getDataSource()).getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		BookDAO dao = new BookDAO(con);
-		dao.updateReturn(risbn);
-		ObservableList<BookVO> list = dao.selectAll(risbn);
-	
-		return list;
-	}
+//	public ObservableList<BookVO> updateByRisbn(String risbn) {
+//		
+//		Connection con = null;
+//		try {
+//			con = (DBCPConnectionPool.getDataSource()).getConnection();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		BookDAO dao = new BookDAO(con);
+//		dao.updateReturn(risbn);
+//		ObservableList<BookVO> list = dao.selectAll(risbn);
+//	
+//		return list;
+//	}
 
 	public void updateBookInfo(String isbn, String title, String author, String publisher, String date, int page,
 			String translator, String updateISBN) {
@@ -212,7 +229,7 @@ public class BookService {
 		return book;
 	}
 
-	public ObservableList<BookVO> selectOverdueBook() {
+	public BookVO selectOverdueBook() {
 		Connection con = null;
 		try {
 			con = (DBCPConnectionPool.getDataSource()).getConnection();
@@ -221,9 +238,37 @@ public class BookService {
 		}
 		
 		BookDAO dao = new BookDAO(con);
-		ObservableList<BookVO> list = dao.selectOverdue();
+		BookVO book = dao.selectOverdue();
 	
-		return list; 
+		return book; 
 		}
+
+	public ObservableList<BookVO> selectOverdueBookList() {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		BookDAO dao = new BookDAO(con);
+	
+		ObservableList<BookVO> list = dao.selectO();
+	
+		return list;
+	}
+
+	public BookVO selectBorrowed(String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		BookVO book = new BookVO();
+		BookDAO dao = new BookDAO(con);
+		book = dao.selectB(loginId);
+		return book;
+	}
 
 }

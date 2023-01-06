@@ -21,13 +21,51 @@ public class BookVO {
 	private String rid;
 	private Date rdate;
 	private Date rduedate;
+	private String roverdue;
 	
 	
+	public String getRid() {
+		return rid;
+	}
+
+
+	public void setRid(String rid) {
+		this.rid = rid;
+	}
+
+
+	public Date getRdate() {
+		return rdate;
+	}
+
+
+	public void setRdate(Date rdate) {
+		this.rdate = rdate;
+	}
+
+
+	public String getRoverdue() {
+		return roverdue;
+	}
+
+
+	public void setRoverdue(String roverdue) {
+		this.roverdue = roverdue;
+	}
+
+
 	public BookVO() {
 		
 	}
 
-	public BookVO(String risbn, String rtitle, String rauthor, String rpublisher, String rid, Date rdate, Date rduedate) {
+	
+	public BookVO(String rtitle) {
+		super();
+		this.rtitle = rtitle;
+	}
+
+
+	public BookVO(String risbn, String rtitle, String rauthor, String rpublisher, String rid, Date rdate, Date rduedate, String roverdue) {
 		super();
 		this.risbn = risbn;
 		this.rtitle = rtitle;
@@ -36,7 +74,7 @@ public class BookVO {
 		this.rid = rid;
 		this.rdate = rdate;
 		this.rduedate = rduedate;
-		
+		this.roverdue = roverdue;
 	}
 
 	public BookVO(Date rduedate) {

@@ -119,5 +119,47 @@ public class MembershipService {
 		
 	}
 
+	public void updateReturnPoint(String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		MembershipDAO dao = new MembershipDAO(con);
+		
+		int count = dao.updatePP(loginId);
+		
+	}
+
+	public void updateOverduePoint(String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		MembershipDAO dao = new MembershipDAO(con);
+		
+		int count = dao.updateMP(loginId);
+	}
+
+	public int selectPoint(String loginId) {
+		Connection con = null;
+		try {
+			con = (DBCPConnectionPool.getDataSource()).getConnection(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		MembershipDAO dao = new MembershipDAO(con);
+		
+		int point = dao.selectP(loginId);
+		return point;
+	}
+
+	
 	
 }

@@ -12,9 +12,7 @@ public class MembershipVO {
 	private String memail;
 	private Date mregdate;
 	
-	private int mpluspoint;
-	private int mminuspoint;
-	private int mtotalpoint;
+	private int mpoint;
 	
 	public MembershipVO() {
 	}
@@ -103,30 +101,15 @@ public class MembershipVO {
 		this.memail = memail;
 	}
 
-	public int getMpluspoint() {
-		return mpluspoint;
+	public int getMpoint() {
+		return mpoint;
 	}
 
-	public void setMpluspoint(int mpluspoint) {
-		this.mpluspoint = mpluspoint;
+	public void setMpoint(int mpoint) {
+		this.mpoint = mpoint;
 	}
 
-	public int getMminuspoint() {
-		return mminuspoint;
-	}
-
-	public void setMminuspoint(int mminuspoint) {
-		this.mminuspoint = mminuspoint;
-	}
-
-	public int getMtotalpoint() {
-		return mtotalpoint;
-	}
-
-	public void setMtotalpoint(int mtotalpoint) {
-		this.mtotalpoint = mtotalpoint;
-	}
-
+	
 	
 	
 	

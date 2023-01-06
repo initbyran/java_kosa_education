@@ -14,12 +14,12 @@ public class BookSearchByKeywordController {
 		return list;
 	}
 	
-	public ObservableList<BookVO> getResult2(String risbn) {
-        BookService service = new BookService();
-        ObservableList<BookVO> list = service.updateByRisbn(risbn);
-		return list;
-	}
-	
+//	public ObservableList<BookVO> getResult2(String risbn) {
+//        BookService service = new BookService();
+//        ObservableList<BookVO> list = service.updateByRisbn(risbn);
+//		return list;
+//	}
+//	
 	public BookVO getResult3(String updateISBN) {
 		BookVO book = new BookVO();
 		BookService service = new BookService();
@@ -29,17 +29,17 @@ public class BookSearchByKeywordController {
 	}
 
 	
-	public  ObservableList<BookVO> getResult4(String risbn) {
+	public  BookVO getResult4(String risbn) {
 		
 		BookService service = new BookService();
-		ObservableList<BookVO> list = service.selectOverdueBook();
+		BookVO book = service.selectOverdueBook();
 		
-		return list;
+		return book;
 	}
 
 	public ObservableList<BookVO> getResult5() {
 		BookService service = new BookService();
-		ObservableList<BookVO> list = service.selectOverdueBook();
+		ObservableList<BookVO> list = service.selectOverdueBookList();
 		
 		return list;
 	}

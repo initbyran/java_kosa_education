@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import project.jdbc.controller.BookDeleteByISBNController;
 import project.jdbc.controller.BookSearchByKeywordController;
 import project.jdbc.controller.BorrowedBookListController;
+import project.jdbc.controller.PointController;
 import project.jdbc.vo.BookVO;
 
 public class BorrowedBookListView {
@@ -97,47 +98,55 @@ public class BorrowedBookListView {
 		returnBtn = new Button("반납하기");
 		returnBtn.setPrefSize(150, 50);
 		returnBtn.setDisable(true);
-		returnBtn.setOnAction(e->{
-			LocalDate now = LocalDate.now();
-			Date date = java.sql.Date.valueOf(now);
+		
+		tableView.setRowFactory(e->{      
+				
+				TableRow<BookVO> row = new TableRow<>();
+				row.setOnMouseClicked(event->{
+					returnBtn.setDisable(false);
+					BookVO book = row.getItem();
+					risbn = book.getRisbn();
+					
+			returnBtn.setOnAction(e1->{
+				
 			BookSearchByKeywordController tcontroller = new BookSearchByKeywordController();
-			BookVO book = tcontroller.getResult4(risbn);
-			int compare = book.getRduedate().compareTo(date);
 			
-			BookDeleteByISBNController controller2 = new BookDeleteByISBNController();
-        	ObservableList<BookVO> list2 = controller2.getResult2(loginId);
-			tableView.setItems(list2);
-			BookSearchByKeywordController controller3 = new BookSearchByKeywordController();
-			ObservableList<BookVO> list3 = controller3.getResult2(risbn);
 			
-			if (compare >= 0) {
+			
+			if (tcontroller.getResult4(risbn) == null) {
 				Dialog<String> dialog = new Dialog<String>();
 				dialog.setTitle("도서 반납 완료");
 				ButtonType type = new ButtonType("확인", ButtonData.OK_DONE);
-				String str = "도서 반납이 완료되었습니다!";
+				String str = "도서 반납이 완료되었습니다!"+"\n"+"(도서가 연체되어 포인트가 차감되었습니다.)";
 				dialog.setContentText(str);
 				dialog.getDialogPane().getButtonTypes().add(type);
 				dialog.getDialogPane().setMinHeight(300);
 				dialog.showAndWait();
+				
+				PointController pcontroller = new PointController();
+				pcontroller.getResult2(loginId);
+			
 			} else {
 				Dialog<String> dialog = new Dialog<String>();
 				dialog.setTitle("도서 반납 완료");
 				ButtonType type = new ButtonType("확인", ButtonData.OK_DONE);
-				String str = "도서 반납이 완료되었습니다!"+"(도서가 연체되어 포인트가 차감되었습니다.)";
+				String str = "도서 반납이 완료되었습니다!"+"\n"+"(700포인트가 적립되었습니다.)";
 				dialog.setContentText(str);
 				dialog.getDialogPane().getButtonTypes().add(type);
 				dialog.getDialogPane().setMinHeight(300);
 				dialog.showAndWait();
+				
+				PointController pcontroller = new PointController();
+				pcontroller.getResult(loginId);
 			}
+			
+			BookDeleteByISBNController controller2 = new BookDeleteByISBNController();
+        	ObservableList<BookVO> list2 = controller2.getResult2(risbn, loginId);
+			tableView.setItems(list2);
 			
 			});
 		
-		tableView.setRowFactory(e->{               
-			TableRow<BookVO> row = new TableRow<>();
-			row.setOnMouseClicked(event->{
-				returnBtn.setDisable(false);
-				BookVO book = row.getItem();
-				risbn = book.getRisbn();
+		
 				
 			}); return row;
 		});

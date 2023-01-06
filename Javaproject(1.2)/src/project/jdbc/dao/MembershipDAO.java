@@ -86,7 +86,7 @@ public class MembershipDAO {
 	
 	public void insert(String id, String pw, String name, String birth, String phone, String email, Date regdate) {
 
-	    String sql = "INSERT INTO membership VALUES (?,?,?,?,?,?,?)";
+	    String sql = "INSERT INTO membership VALUES (?,?,?,?,?,?,?,3000)";
 	    
 	    try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -117,7 +117,7 @@ public class MembershipDAO {
 		try {
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, "%"+text+"%");
-			System.out.println(pstmt);
+			
 			ResultSet rs = pstmt.executeQuery();
 			list = FXCollections.observableArrayList();
 			while (rs.next()) {
@@ -174,6 +174,61 @@ public class MembershipDAO {
 		}
 		return count;
 	}
+
+	public int updatePP(String loginId) {
+		
+		String sql = "UPDATE membership SET mpoint = mpoint + 700 WHERE mid = ?";
+		int count=0;
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, loginId);
+		    
+			int Count = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	public int updateMP(String loginId) {
+		String sql = "UPDATE membership SET mpoint = mpoint - 700 WHERE mid = ?";
+		int count=0;
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, loginId);
+		   
+			int Count = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	public int selectP(String loginId) {
+		int point = 0;
+		String sql = "SELECT mpoint FROM membership WHERE mid = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, loginId);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				point = rs.getInt("mpoint");
+			}
+			rs.close();
+			pstmt.close();
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+		} return point;
+	}
+
+	
 
 
 
