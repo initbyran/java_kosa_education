@@ -47,7 +47,7 @@ public class MembershipDAO {
 		
 	}
 	
-	//로그인 - MyBatis 적용
+	
 	private SqlSessionFactory factory;
 	public MembershipDAO(SqlSessionFactory factory) {
 		this.factory = factory;
@@ -60,77 +60,35 @@ public class MembershipDAO {
 		return membership;
 	}
 	
-//	public HashMap<String, String> select(String loginId, String loginpw){
-//		HashMap<String, String> membership = null;
-//		SqlSession session = factory.openSession();
-//		membership = session.selectOne("project.myMember.select", loginId); // 원래 가지고 있는 method
-//		for(String key : membership.keySet()) {
-//			System.out.println(key + ", "+membership.get(key));
-//		}
-//		return membership;
-//	}
-	
-//	public MembershipVO select(String loginId, String loginpw) {
-//		
-//		MembershipVO membership=null;
-//		
-//		String sql = "SELECT mid, mpw FROM membership WHERE mid = ?";
-//		try {
-//			PreparedStatement pstmt = con.prepareStatement(sql);
-//			pstmt.setString(1, loginId);
-//			ResultSet rs = pstmt.executeQuery();
-//			if(rs.next()) {
-//				membership = new MembershipVO(rs.getString("mid"),rs.getString("mpw"));
-//			}
-//			rs.close();
-//			pstmt.close();
-//			
-//		} catch (SQLException e) {
-//			//e.printStackTrace();
-//		} return membership;
-//		
-//	}
-	
-	public RentalInfoVO selectmanager(String managerId) {
-		
+
+	public RentalInfoVO selectManager(String loginId) {
 		RentalInfoVO manager = null;
-		String sql = "SELECT managerid, managerpw FROM manager WHERE managerid = ?";
-		try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, managerId);
-			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {
-				manager = new RentalInfoVO(rs.getString("managerid"),rs.getString("managerpw"));
-			}
-			rs.close();
-			pstmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+		SqlSession session = factory.openSession();
+		manager = session.selectOne("project.myMember.selectManager",loginId);
 		return manager;
 	}
 	
 	public void insert(String id, String pw, String name, String birth, String phone, String email, Date regdate) {
 
-	    String sql = "INSERT INTO membership VALUES (?,?,?,?,?,?,?,3000)";
-	    
-	    try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-			pstmt.setString(2, pw);
-			pstmt.setString(3, name);
-			pstmt.setString(4, birth);
-			pstmt.setString(5, phone);
-			pstmt.setString(6, email);
-			pstmt.setDate(7, (java.sql.Date) regdate);
-			
-			int Count = pstmt.executeUpdate();
-			
-			pstmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 	    
+		int count = 0;
+		SqlSession session = factory.openSession();
+		try {
+		
+		MembershipVO membership = new MembershipVO();
+		membership.setMid(id);
+		membership.setMpw(pw);
+		membership.setMname(name);
+		membership.setMbirth(birth);
+		membership.setMphonenumber(phone);
+		membership.setMemail(email);
+		membership.setMregdate((java.sql.Date)regdate);
+		
+	    count = session.insert("project.myMember.insertMemberInfo", membership);
+		} finally {
+		
+	    session.commit();
+	    session.close();
+		}
 	}
 
 	public ObservableList<MembershipVO> selectAll(String text) {

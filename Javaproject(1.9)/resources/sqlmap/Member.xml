@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="project.myMember">
+    <select id="select" parameterType="String" resultType="Membership">
+    <![CDATA[
+      SELECT mid, mpw 
+      FROM membership
+      WHERE mid = #{loginId}
+      ]]>
+    </select>
+    
+    <select id="selectManager" parameterType="String" resultType="manager">
+    <![CDATA[
+      SELECT managerid, managerpw 
+      FROM manager 
+      WHERE managerid = #{loginId}
+    ]]>
+    </select>
+    
+    <insert id="insertMemberInfo" parameterType="Membership" >
+    <![CDATA[
+      INSERT INTO membership
+      VALUES (#{mid},#{mpw},#{mname},#{mbirth},#{mphonenumber},#{memail},#{mregdate},3000)
+    ]]>
+    </insert>
+</mapper>

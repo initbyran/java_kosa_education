@@ -17,12 +17,6 @@ import project.jdbc.mybatis.MyBatisConnectionFactory;
 public class MembershipService {
 
 	public boolean selectMemberByID(String loginId, String loginpw) {
-//		Connection con = null;
-//		try {
-//			con = (DBCPConnectionPool.getDataSource()).getConnection();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
 		SqlSessionFactory factory = MyBatisConnectionFactory.getSqlSessionFactory();
 		MembershipDAO dao = new MembershipDAO(factory);
 		
@@ -37,29 +31,18 @@ public class MembershipService {
 			} 
 	}
 
-	public RentalInfoVO selectManagerByID(String managerId) {
-		Connection con = null;
-		try {
-			con = (DBCPConnectionPool.getDataSource()).getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		MembershipDAO dao = new MembershipDAO(con);
-		RentalInfoVO manager = dao.selectmanager(managerId);
+	public RentalInfoVO selectManagerByID(String loginId) {
+		SqlSessionFactory factory = MyBatisConnectionFactory.getSqlSessionFactory();
+		MembershipDAO dao = new MembershipDAO(factory);
+		RentalInfoVO manager = dao.selectManager(loginId);
 	
 		return manager;
 	}
 	
 	public void insertMemberInfo(String id, String pw, String name, String birth, String phonenumber, String email, Date regdate) {
-		Connection con = null;
-		try {
-			con = (DBCPConnectionPool.getDataSource()).getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
-		MembershipDAO dao = new MembershipDAO(con);
+		SqlSessionFactory factory = MyBatisConnectionFactory.getSqlSessionFactory();
+		MembershipDAO dao = new MembershipDAO(factory);
 		dao.insert(id,pw,name,birth,phonenumber,email,regdate);
 		
 		

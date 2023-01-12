@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="project.myBook">
+    <select id="selectBook" parameterType="String" resultType="Book">
+    <![CDATA[
+      SELECT bisbn, btitle, bauthor, bpublisher, bborrowable
+      FROM book
+      WHERE btitle like CONCAT('%',#{text},'%') 
+    ]]>
+    </select>
+
+    <update id="update" parameterType="String">
+    <![CDATA[
+       UPDATE book SET bborrowable = '대여중' 
+       WHERE bisbn = #{borrowedISBN}
+       ]]>
+    </update>
+    
+    <delete id="delete" parameterType="String">
+    <![CDATA[
+       DELETE FROM book 
+       WHERE bisbn = #{deleteISBN}
+    ]]>
+    </delete>
+</mapper>
